@@ -122,7 +122,7 @@ Keeping the index fresh without reprocessing everything means you need to track 
 ##### Consistency vs throughput trade-offs
 High throughput ingestion batches embedding calls, which improves GPU utilization. However there will be a lag between document upload and query availability (consistency window). If a document is needed to be searchable immediately after upload you need a synchronous path that bypasses batching (costs throughput). RAGFlow's pipeline uses async task queue for batch ingestion and a seperate real-time path for small documents. 
 
-
+```mermaid
 flowchart LR
     A[Source Docs] --> B[Source Adapters]
     B --> C{New or\nChanged?}
@@ -132,8 +132,8 @@ flowchart LR
     F --> G[Embedding Service]
     G --> H[(Hybrid Index)]
     F -.->|Metadata| H
-    
     H --> I[Query Layer]
+```
 
 #### Memory design in RAG systems.
 
