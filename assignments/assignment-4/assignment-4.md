@@ -125,16 +125,15 @@ High throughput ingestion batches embedding calls, which improves GPU utilizatio
 
 ```mermaid
 flowchart LR
-    A[Documents / Data Sources] --> B[Load Data\n(PDF, HTML, DB, API)]
-    B --> C[Convert to Common Format]
-    C --> D{Data Changed?}
-    D -- No --> E[Skip]
-    D -- Yes --> F[Parse Content\n(OCR if needed)]
-    F --> G[Split into Chunks]
-    G --> H[Create Embeddings]
-    H --> I[Store in Index]
-    G --> J[Extract Metadata]
-    J --> I
+    A[Source Docs] --> B[Source Adapters]
+    B --> C{New or\nChanged?}
+    C -- No --> D((Exit))
+    C -- Yes --> E[Layout Parser\n& Chunker]
+    E --> F[Schema Normalizer]
+    F --> G[Embedding Service]
+    G --> H[(Hybrid Index)]
+    F -.->|Metadata| H
+    H --> I[Query Layer]
 
 ```
 
